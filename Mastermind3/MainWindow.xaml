@@ -18,7 +18,7 @@
                 <MenuItem x:Name="amountOfGuesses" Header="Aantal pogingen" Click="amountOfGuesses_Click"/>
             </MenuItem>
         </Menu>
-        <Canvas x:Name="introductionCanvas">
+        <Canvas x:Name="introductionCanvas" Visibility="Visible">
             <Label Content="Ga naar het menu om het spel te starten of de instellingen aan te passen!" Canvas.Left="172" Canvas.Top="150" FontSize="20"/>
         </Canvas>
         <Canvas x:Name="gameCanvas" Visibility="Hidden">
@@ -41,8 +41,8 @@
             </GroupBox>
             <TextBox x:Name="randomGeneratedCodeTextBox" HorizontalAlignment="Center" Margin="0,240,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="180" Height="28" Visibility="Hidden"/>
             <Label x:Name="timerLabel" Content="00" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="233" Canvas.Top="220"/>
-            <Label x:Name="pointsLabel" Content="Score: 100" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="363" Canvas.Top="335"/>
-
+            <Label x:Name="pointsLabel" Content="Score: 100" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="361" Canvas.Top="340"/>
+            <Label x:Name="currentPlayerNameLabel" Canvas.Left="361" Canvas.Top="322"/>
         </Canvas>
         <Canvas x:Name="attemptCanvas" VerticalAlignment="Center" Height="435" Margin="627,0,84,0"/>
 

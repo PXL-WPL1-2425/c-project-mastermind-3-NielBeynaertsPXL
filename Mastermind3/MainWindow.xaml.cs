@@ -95,6 +95,7 @@ namespace Mastermind3
 
             userNameNextPlayer = players[(currentPlayerIndex + 1) % players.Count];
             currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
+            currentPlayerNameLabel.Content = userNameCurrentPlayer.ToString();
         }
 
         public void CreateRandomColorCombination()
