@@ -31,7 +31,9 @@ namespace Mastermind3
 
         private DispatcherTimer timer = new DispatcherTimer();
 
-        string userName;
+        string userNameCurrentPlayer;
+        string userNameNextPlayer;
+        int currentPlayerIndex = 0;
         bool userNameEntered = false;
         int attempts = 0;
         int points = 100;
@@ -85,13 +87,16 @@ namespace Mastermind3
             MessageBox.Show(playerList.ToString(), "Spelerslijst", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+
         private void CurrentPlayer()
         {
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                userName = players[0];
-            }
+
+            userNameCurrentPlayer = players[currentPlayerIndex];
+
+            userNameNextPlayer = players[(currentPlayerIndex + 1) % players.Count];
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
         }
+
         public void CreateRandomColorCombination()
         {
             CurrentPlayer();
@@ -252,7 +257,7 @@ namespace Mastermind3
             if (selectedColors[0] == randomColorSelection[0] && selectedColors[1] == randomColorSelection[1] && selectedColors[2] == randomColorSelection[2] && selectedColors[3] == randomColorSelection[3])
             {
                 StopCountdown();
-                MessageBox.Show($"Code is gekraakt in {attempts} pogingen", $"WINNER", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Code is gekraakt in {attempts} pogingen, nu is speler {userNameNextPlayer} aan de beurt", userNameCurrentPlayer, MessageBoxButton.OK, MessageBoxImage.Information);
                 StopGame();
             }
 
@@ -313,7 +318,7 @@ namespace Mastermind3
         {
             if (attempts > amountOfPlays)
             {
-                MessageBox.Show($"You have reached the maximum amount of guesses, {correctCodeString}");
+                MessageBox.Show($"You have reached the maximum amount of guesses, {correctCodeString} \nNu is speler {userNameNextPlayer} aan de beurt", userNameCurrentPlayer);
                 StopGame();
             }
             else
@@ -332,7 +337,7 @@ namespace Mastermind3
 
             
 
-            ranking.Add($"{userName} - {attempts} pogingen - {points}/100");
+            ranking.Add($"{userNameCurrentPlayer} - {attempts} pogingen - {points}/100");
 
             // Reset Guesses Canvas
             attemptCanvas.Children.Clear();
