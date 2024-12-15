@@ -86,8 +86,6 @@ namespace Mastermind3
             }
             MessageBox.Show(playerList.ToString(), "Spelerslijst", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-
         private void CurrentPlayer()
         {
 
@@ -97,7 +95,6 @@ namespace Mastermind3
             currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
             currentPlayerNameLabel.Content = userNameCurrentPlayer.ToString();
         }
-
         public void CreateRandomColorCombination()
         {
             CurrentPlayer();
@@ -118,9 +115,9 @@ namespace Mastermind3
             // Display color names in the window title for debugging
             // RandomColors[n] gives a number, this number is entered in 'ColorsName[]', this gives the name of a color and displays it as title
             correctCodeString = $"The correct code was: {colorsName[randomColors[0]]}, {colorsName[randomColors[1]]}, {colorsName[randomColors[2]]}, {colorsName[randomColors[3]]}";
+            this.Title = $"The correct code was: {colorsName[randomColors[0]]}, {colorsName[randomColors[1]]}, {colorsName[randomColors[2]]}, {colorsName[randomColors[3]]}";
 
-            attempts++;
-            this.Title = $"Poging {attempts}";
+            //this.Title = $"Poging {attempts}";
 
             randomColorSelection[0] = colorsName[randomColors[0]];
             randomColorSelection[1] = colorsName[randomColors[1]];
@@ -129,7 +126,6 @@ namespace Mastermind3
 
             StartCountdown();
         }
-
         private void color1Button_Click(object sender, RoutedEventArgs e)
         {
             radioButtonsGroupBox.Visibility = Visibility.Visible;
@@ -415,6 +411,76 @@ namespace Mastermind3
                     sb.AppendLine(score);
                 }
                 MessageBox.Show(sb.ToString(), "High Scores", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void correctColorHint_Click(object sender, RoutedEventArgs e)
+        {
+            if (points < 15)
+            {
+                MessageBox.Show("Je hebt niet genoeg punten om een hint te kopen!", "Onvoldoende punten", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            MessageBoxResult result = MessageBox.Show("Wilt u een hint kopen? Je krijgt 1 juiste kleur (niet op de juiste plaats) \nDeze hint kost 15 punten", "Speler Toevoegen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                points -= 15;
+                pointsLabel.Content = $"Score: {points.ToString()}";
+            }
+
+            List<string> remainingColors = new List<string>();
+            for (int i = 0; i < randomColorSelection.Length; i++)
+            {
+                if (selectedColors[i] != randomColorSelection[i])
+                {
+                    remainingColors.Add(randomColorSelection[i]);
+                }
+            }
+
+            if (remainingColors.Count > 0)
+            {
+                // Randomly select a hint color
+                string hintColor = remainingColors[rnd.Next(remainingColors.Count)];
+                MessageBox.Show($"Hint: Eén van de kleuren in de code is {hintColor}.", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Je hebt alle kleuren al geraden", "Geen Hint Nodig", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void correctColorAndPlaceHint_Click(object sender, RoutedEventArgs e)
+        {
+            if (points < 20)
+            {
+                MessageBox.Show("Je hebt niet genoeg punten om een hint te kopen!", "Onvoldoende punten", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Wilt u een hint kopen? Je krijgt 1 juiste kleur, op de juiste plaats \nDeze hint kost 20 punten", "Speler Toevoegen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                points -= 20;
+                pointsLabel.Content = $"Score: {points.ToString()}";
+            }
+
+            List<int> incorrectPositions = new List<int>();
+            for (int i = 0; i < randomColorSelection.Length; i++)
+            {
+                if (selectedColors[i] != randomColorSelection[i])
+                {
+                    incorrectPositions.Add(i);
+                }
+            }
+
+            if (incorrectPositions.Count > 0)
+            {
+                int hintPosition = incorrectPositions[rnd.Next(incorrectPositions.Count)];
+                string hintColor = randomColorSelection[hintPosition];
+
+                MessageBox.Show($"Hint: De kleur op positie {hintPosition + 1} is {hintColor}.", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Alle kleuren staan op de juiste plaats, er is geen hint beschikbaar.", "Geen Hint Nodig", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

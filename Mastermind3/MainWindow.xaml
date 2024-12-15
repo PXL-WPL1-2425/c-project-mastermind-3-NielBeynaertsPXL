@@ -17,6 +17,10 @@
             <MenuItem Header="Instellingen" >
                 <MenuItem x:Name="amountOfGuesses" Header="Aantal pogingen" Click="amountOfGuesses_Click"/>
             </MenuItem>
+            <MenuItem Header="Hints" >
+                <MenuItem x:Name="correctColorHint" Header="1 kleur" Click="correctColorHint_Click"/>
+                <MenuItem x:Name="correctColorAndPlaceHint" Header="1 kleur + positie" Click="correctColorAndPlaceHint_Click"/>
+            </MenuItem>
         </Menu>
         <Canvas x:Name="introductionCanvas" Visibility="Visible">
             <Label Content="Ga naar het menu om het spel te starten of de instellingen aan te passen!" Canvas.Left="172" Canvas.Top="150" FontSize="20"/>
